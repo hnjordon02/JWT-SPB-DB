@@ -1,0 +1,48 @@
+--========================================
+--		USUARIOS
+--========================================
+
+-- Table: public.usuarios
+-- CREATE SEQUENCE usuarios_id_seq;
+-- DROP TABLE IF EXISTS public.usuarios;
+
+CREATE TABLE IF NOT EXISTS public.usuarios
+(
+    id integer NOT NULL DEFAULT nextval('usuarios_id_seq'::regclass),
+    username character varying(50) COLLATE pg_catalog."default",
+    full_name character varying(255) COLLATE pg_catalog."default",
+    password character varying(255) COLLATE pg_catalog."default",
+    created_at timestamp without time zone,
+    last_password_change_at timestamp without time zone,
+    CONSTRAINT usuarios_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.usuarios
+    OWNER to postgres;
+
+-- Contraseña: Admin1
+INSERT INTO usuarios (username,full_name,password,created_at,last_password_change_at) 
+VALUES ('admin','USUARIO ADMINISTRADOR','$2a$10$DBJhFdEGTeAqoLLsGfXwYObYXpt/amU0wpsRtKQtwJdC5n.MOXgxC', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+INSERT INTO user_entity_roles (user_entity_id, roles) VALUES (1,'USER');
+INSERT INTO user_entity_roles (user_entity_id, roles) VALUES (1,'ADMIN');
+--========================================
+--		ROLES
+--========================================
+
+-- Table: public.user_entity_roles
+
+-- DROP TABLE IF EXISTS public.user_entity_roles;
+
+CREATE TABLE IF NOT EXISTS public.user_entity_roles
+(
+    user_entity_id integer,
+    roles character varying(50) COLLATE pg_catalog."default"
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.user_entity_roles
+    OWNER to postgres;
